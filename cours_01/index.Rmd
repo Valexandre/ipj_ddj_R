@@ -1,0 +1,68 @@
+---
+title: "IPJ - Datajournalisme"
+subtitle: "Cours 01 : R, votre nouvel outil"
+author: "Victor Alexandre"
+date: "12/09/2022"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+
+---
+
+background-image: url("https://media.giphy.com/media/xT1R9ScK8XbiRQv70Y/giphy.gif")
+class: center, top, inverse
+
+# 1. Déroulement du cours
+
+---
+
+## Objectifs
+
+**Ce cours a pour vocation de vous initier à l'usage journalistique d'outils de programmation statistique (en l'occurence R).**
+
+A son terme, vous saurez
+1. ce que fait une cellule data dans une rédaction ;
+2. trouver de nouveaux angles ;
+3. réaliser des opérations statistiques et géomatiques simples (mais pas uniquement) ;
+4. si le datajournalisme sera votre grand amour ou juste une connaissance.
+
+
+--
+  
+### On va faire du **journalisme**, rien que du journalisme.
+  
+La base de données est au data journaliste ce que l'entretien est au portraitiste. Un bon angle d'entretien bien tenu est toujours plus intéressant qu'un traité exhaustif. 
+
+---
+  
+## Trousse à outil
+  
+1. [R (base)](https://www.r-project.org/) : notre langage de référence ;
+2. [Rstudio](https://rstudio.com/) : notre interface de base ;
+
+--
+
+Ces outils nécessitent l'usage courant de plusieurs langages ou syntaxes :
+* **R**, langage de programmation statistique orienté objet ;
+* **Markdown**, syntaxe de mise en forme de texte ;
+* les **regex** (ou *expression régulière*), langage formel de description des chaînes de charactère ;
+* **Xpath**, langage de requêtes utilisé pour traiter les formats HTML et XML.
+
+Chacun de ces outils sera présenté, documenté et utilisé de manière concrète pendant le cours. La théorie sera réduite au strict minimum nécessaire, nous sommes dans un cours pratique.
+
+---
+
+## Fonctionnement de ce cours
+
+
+### Documentation
+L'intégralité des contenus utilisés durant le cours est disponible sur la page Github de ce cours : https://github.com/Valexandre/ipj_ddj_R.
+
+Les slides de ce cours sont disponibles en format HTML à la page suivante : https://Valexandre.github.io/ipj_ddj_R/cours_01/
+
+### Evaluation
+A la fin de chaque cours, je vous donnerai un petit exercice d'application à réaliser pour le cours suivant. J'en préciserai le sujet et le format. Un plus gros projet vous sera demandé pour l'évaluation finale.
