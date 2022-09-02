@@ -74,6 +74,538 @@ Les slides de ce cours sont disponibles en format HTML à la page suivante : htt
 
 ### Evaluation
 A la fin de chaque cours, je vous donnerai un petit exercice d'application à réaliser pour le cours suivant. J'en préciserai le sujet et le format. Un plus gros projet vous sera demandé pour l'évaluation finale.
+
+
+### Communication
+Je vous invite à me contacter par mail. valexandre @ leparisien.fr
+
+---
+
+## Grands principes
+
+**Je vous encourage à vous tourner vers des solutions programmatiques et open source** pour le maximum de vos usages : la dépendance aux outils propriétaires (qu'ils soient payant ou gratuit) peut constituer une faiblesse voire un danger pour les journalistes (cf. [Google Fusion Tables](https://www.fastcompany.com/90279779/rip-fusion-tables-google-is-killing-off-the-beloved-data-visualization-tool) et autres plantages).
+
+Ce cours est tiré en grande partie du travail du très talentueux Sylvain Lapoix, qui dans sa grande maîtrise de l'open-source, m'a autorisé à m'inspirer librement de ses trouvailles.
+
+--
+  
+... donc, **posez des questions, le maximum, dès que vous en ressentez le besoin : vous ferez avancer tout le monde, moi y compris**.
+
+Des pertes de temps considérables sont évitées chaque jour par l'application de bonnes habitudes :
+* **documentez** vos idées, vos réussites, vos erreurs, vos blocages ...
+* **interrogez** vos collègues, vos outils, la communauté ...
+* **partagez** vos trouvailles, vos bonnes pratiques et votre code.
+
+---
+
+# Installation &amp; lancement !
+
+## Rstudio : votre interface
+
+![](./img/rstudio_interface.png)
+
+.footnote[Je vous recommande par ailleurs [les nombreuses "cheatsheet" mises à disposition par l'équipe de Rstudio](https://www.rstudio.com/resources/cheatsheets/).]
+
+
+---
+  
+## La ligne de commande
+  
+La **console** (ou "invite de commande") de R vous permet de réaliser des opérations sans utiliser l'interface graphique (GUI) : il s'agit d'une "interface en ligne de commande" (ou CLI).
+
+Elle permet de réaliser des opérations simples, lancer des scripts et tester des bouts de code.
+
+![](https://media.giphy.com/media/G6sJqVpD1U4jC/giphy.gif)
+
+---
+
+## Jouons donc avec la console
+
+Tapons 102
+
+
+```r
+102
+```
+Entrée
+
+*Qu'obtenez-vous?*
+
+--
+
+Tapons "bonjour"
+
+
+```r
+"bonjour"
+```
+Entrée
+
+*Qu'obtenez-vous?*
+
+---
+
+## Créons ensemble des variables !
+
+Assignons une valeur à une variable.
+
+
+```r
+taux_tva&lt;-0.2
+```
+
+--
+
+Quelle est la valeur de la TVA sur un bien de 14,3€ ?
+
+
+```r
+prix_produit &lt;- 14.3
+
+valeur_tva &lt;- prix_produit * taux_tva
+```
+Donc la valeur de notre produit sans TVA est de...
+
+
+```r
+prix_sans_tva &lt;- prix_produit - valeur_tva
+```
+
+---
+### Et poursuivons...
+
+Si la tva passait à 5% sur ce produit, à combien passerait ce produit ?
+
+
+```r
+taux_tva &lt;- 0.05
+nouveau_prix_avec_tva_5 &lt;- prix_sans_tva - prix_sans_tva * taux_tva
+```
+
+soit une économie pour le consommateur de...
+
+
+```r
+economie &lt;- prix_produit - nouveau_prix_avec_tva_5
+economie
+```
+
+```
+## [1] 3.432
+```
+
+---
+
+### Qu'a-t-on appris ?
+
+1. R vous permet de réaliser toutes les opérations arithmétiques de base : il vous suffit de les saisir au clavier dans la console, on a aussi vu que R gérait les priorités dans les opérations.
+
+
+```r
+14.3*0.2
+```
+
+```
+## [1] 2.86
+```
+
+```r
+14.3*taux_tva
+```
+
+```
+## [1] 0.715
+```
+
+```r
+# R gère également les priorités
+prix_sans_tva - prix_sans_tva * taux_tva
+```
+
+```
+## [1] 10.868
+```
+
+On a aussi créé des variables, maintenant qu'on les a créé, cherchons à les comprendre.
+
+---
+
+## Les variables
+
+Les variables sont des **objets** permettant de stocker une valeur, c'est-à-dire une donnée ou une structure de données (nous verrons ça dans un instant).
+
+
+La valeur est **assignée** à la variable par `&lt;-` ou `=`.
+La valeur est une chaîne de caractères de longueur libre. Il existe cependant quelques restrictions : elle ne peut débuter par un chiffre (ex. 9efj) et certains mots sont dit "interdits" car ils correspondent à des variables définies par ailleurs.
+
+---
+  
+## Quels sont les types de données ?
+  
+* numériques :
+  * integer ;
+  * double ;
+* character (chaînes de caractères) ;
+* logical (booléens)
+* autres (dates, geo, etc.)
+
+---
+  
+## Quelles sont les structures de données ?
+  
+### Le vecteur (1/2)
+  
+Les structures de données sont de objets qui permettent de stocker de manière organisées plusieurs valeurs. **La structure de référence de R est le vecteur** : une suite de valeurs d'une seule dimension et du même type de données. On l'initialise avec un `c()`.
+
+```r
+prenoms &lt;- c("François","Etienne","Chloé","Thomas","Aimée")
+prenoms
+```
+
+```
+## [1] "François" "Etienne"  "Chloé"    "Thomas"   "Aimée"
+```
+
+```r
+prix_ht &lt;- c(1999.99, 20, 242/2)
+prix_ht
+```
+
+```
+## [1] 1999.99   20.00  121.00
+```
+
+**Toutes les structures de données de R peuvent être construites avec ou décompensées en vecteurs**.
+
+---
+
+### Le vecteur (2/2)
+
+Outre sa capacité à stocker, le vecteur permet aussi des opérations globales.
+
+Par exemple, si on réalise une opération arithmétique sur un vecteur contenant des valeurs numériques, l'opération sera appliquée à chaque valeur du vecteur :
+  
+
+```r
+chiffres &lt;- c(1,2,3)
+chiffres * 3
+```
+
+```
+## [1] 3 6 9
+```
+
+--
+  
+Cas réel : si vous souhaitez calculer la valeur TTC de montant hors taxe et que vous connaissez le taux, vous pouvez l'appliquer à une série de valeurs.
+On applique un taux de 20% et un taux de 5% pour voir l'impact sur les prix.
+
+--
+
+
+```r
+prix_ht * 1.2
+```
+
+```
+## [1] 2399.988   24.000  145.200
+```
+
+```r
+prix_ht * 1.05
+```
+
+```
+## [1] 2099.99   21.00  127.05
+```
+
+---
+Et quelle différence cela fait concrètement ?
+
+
+
+```r
+prix_ht * 1.2 - prix_ht * 1.05
+```
+
+```
+## [1] 299.9985   3.0000  18.1500
+```
+
+```r
+#On peut même arrondir 
+round(prix_ht * 1.2 - prix_ht * 1.05,2)
+```
+
+```
+## [1] 300.00   3.00  18.15
+```
+
+---
+
+### Les matrices
+Le format classique des maths : toujours le même type de données dans la structure (une matrice en l'occurence).
+
+### Les dataframes
+Le format "classique" des BDDs : toujours le même type de données par variable.
+
+A quoi s'ajoutent :
+* les listes ;
+* les facteurs ;
+* les tibbles (qui sont très proches des dataframes).
+
+---
+  
+### Fabriquer une table
+  
+Les structures de données peuvent être créées par plusieurs moyens. Le plus simple consiste à assembler des vecteurs en ligne ou en colonne.
+
+Pour cela, nous utiliserons les fonctions `rbind()` pour assembler en ligne et `cbind()` pour assembler en colonne.
+
+Prenons deux vecteurs :
+  
+
+```r
+vehicules &lt;- c("Velib", "Voiture", "Uber", "Bus", "Metro", "RER")
+vitesses_moyennes&lt;- c(14, 13, 13, 16, 23, 40)
+```
+
+---
+
+Nous pouvons les assembler en les mettant entre parenthèse après l'une des deux fonctions citée ci-dessus.
+
+Quel résultat obtenons-nous ?
+
+--
+
+
+```r
+cbind(vehicules, vitesses_moyennes)
+```
+
+```
+##      vehicules vitesses_moyennes
+## [1,] "Velib"   "14"             
+## [2,] "Voiture" "13"             
+## [3,] "Uber"    "13"             
+## [4,] "Bus"     "16"             
+## [5,] "Metro"   "23"             
+## [6,] "RER"     "40"
+```
+
+```r
+rbind(vehicules, vitesses_moyennes)
+```
+
+```
+##                   [,1]    [,2]      [,3]   [,4]  [,5]    [,6] 
+## vehicules         "Velib" "Voiture" "Uber" "Bus" "Metro" "RER"
+## vitesses_moyennes "14"    "13"      "13"   "16"  "23"    "40"
+```
+
+
+---
+
+### Coordonnées d'une valeur 1/2
+
+Toutes les structures de données (à l'exception des listes) offrent une **indexation numérique** des données, c'est-à-dire qu'elles permettent d'appeler une donnée en donnant une coordonnée chiffré (à un ou plusieurs chiffres).
+                                   
+Un vecteur étant unidimensionnel, nous pourrons appeler n'importe quelle valeur avec le rang correspondant à son emplacement :
+
+
+```r
+vehicules
+```
+
+```
+## [1] "Velib"   "Voiture" "Uber"    "Bus"     "Metro"   "RER"
+```
+
+Quel sera le résultat de `vehicules[2]` ?
+
+--
+
+```r
+vehicules[2]
+```
+
+```
+## [1] "Voiture"
+```
+
+Dans R, l'index débute à 1: le premier élément d'un vecteur est nomduvecteur[1], le 2è nomduvecteur[2], etc. Contrairement à certains langages ou il débute à 0.
+
+---
+
+### Coordonnées d'une valeur 1/2
+                                   
+                                   
+Dans des structures de données à plusieurs dimensions, il faudra fournir autant d'index que de dimensions :
+
+```r
+cbind(vehicules, vitesses_moyennes)[2,1]
+```
+
+```
+## vehicules 
+## "Voiture"
+```
+
+Nous apprendrons plus tard comment sélectionner des données ou des sous-ensembles suivant des conditions appliquées aux données.
+
+---
+
+## Fonctions
+
+Une **fonction** est une opération que vous pouvez "appeler" en spécifiant les conditions de son exécution.
+
+En pratique, une fonction est appelée en écrivant son nom suivi d'une parenthèse ouverte puis refermée. La plupart des fonctions nécessitent **des arguments**, c'est-à-dire des paramètres qui doivent être listés dans la parenthèse dans un certain ordre ou suivant une certaine nomenclature. Certains arguments sont obligatoires, d'autres facultatifs.
+                                   
+Une fonction peut être utilisée dans la ligne de commande ou dans un script.
+
+--
+  
+### Premier exemple
+
+Quel résultat obtenez-vous en tapant `getwd()` dans votre console ?
+A quoi correspond-il ?
+
+---
+
+### Aparté : trouver de la documentation
+
+Rstudio intègre deux outils simples pour accéder rapidement à la documentation des fonctions :
+* l'onglet "Help" dans le panneau inférieur droit ;
+* les préfixes `?` et  `??` à ajouter avant une fonction dans la console.
+
+
+```r
+?getwd
+```
+
+--
+
+Vous pouvez également chercher sur Google mais Rstudio embarque déjà une très grande quantité de données.
+
+---
+
+**Autres exemples de fonctions**
+
+Fonctions exploratoires de base
+
+* summary()
+* class()
+* length()
+* names()
+* order()
+* sort()
+* sample()
+
+
+---
+
+### Deuxième exemple de fonction
+
+On veut créer une fonction qui nous renvoie le prix d'un produit selon que l'on applique une TVA à 5% ou une
+TVA à 20%.
+
+
+```r
+ma_fonction_tva &lt;- function(prix_hors_taxe){
+  prix_tva_5&lt;-prix_hors_taxe*1.05
+  prix_tva_20&lt;-prix_hors_taxe*1.2
+  
+  print(
+    paste0("Avec un prix HT de ",
+           prix_hors_taxe,
+           "e, il passerait de ",round(prix_tva_5,1),"e à ",
+           round(prix_tva_20),"e." )
+    )
+}
+```
+
+---
+
+
+```r
+ma_fonction_tva(prix_hors_taxe = prix_ht)
+```
+
+```
+## [1] "Avec un prix HT de 1999.99e, il passerait de 2100e à 2400e."
+## [2] "Avec un prix HT de 20e, il passerait de 21e à 24e."         
+## [3] "Avec un prix HT de 121e, il passerait de 127.1e à 145e."
+```
+
+
+
+---
+
+## Les packages
+
+Les packages sont des collections de fonctions, souvent organisées autour d'une thématique.
+                                   
+### Les packages que nous utiliserons dans ce cours
+
+* le [tidyverse](https://www.tidyverse.org/) : comme son nom l'indique, il s'agit d'un ensemble de packages autour de la notion de "tidy data", notamment :
+  * **readr** : pour lire des fichiers ;
+  * **tibble** : pour organiser les données dans une structure performante, le *tibble* ;
+  * **tidyr** : pour réorganiser les données ;
+  * **dplyr** : pour manipuler les données ;
+  * **ggplot2** : pour visualiser les données ;
+  * **purrr** : pour la programmation fonctionnelle (utilisation avancée) ;
+* [rvest](https://github.com/tidyverse/rvest) : pour scraper des données sur le web ;
+* [data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html) : une variante du Tidyverse, dont je vous conseille surtout la fonction `fread()` pour lire les gros fichiers ;
+* [devtools](https://github.com/r-lib/devtools) : pour installer certains packages non intégré aux serveurs Cran.
+
+---
+
+### Installer et appeler un package
+
+Vous pouvez gérer vos packages via l'interface graphique (dans "Tools"), dans la boite en bas à droite ou via la console. Si vous choisissez cette 3e option, quelques fonctions vous suffiront à couvrir presque tous vos besoins :
+
+* `installed.packages()` : permet de voir la liste de vos packages ou vérifier si vous disposez d'un package donné (ou l'onglet packages)
+* `update.packages()` : pour de les mettre à jour.
+* `install.packages()` : permet d'installer un package en spécifiant le nom du package comme argument entre parenthèses.
+
+
+```r
+install.packages("tidyverse") # installe l'intégralité du tidyverse
+```
+
+--
+  
+Pour *appeler* un package (c'est-à-dire rendre disponible les fonctions qu'il contient pour la session en cours), il vous suffit d'exécuter la fonction `library()` avec le nom du package en argument :
+
+
+```r
+library(tidyverse) # permet de charger d'un coup l'intégralité du tidyverse
+```
+
+Vous noterez que Rstudio suggère automatiquement des packages sous forme d'un menu déroulant, pas besoin de tout taper à chaque fois.
+
+---
+  
+  
+### Se faire une liste de course
+  
+Quand on débute un travail de traitement de données, on peut prendre l'habitude d'aller voir les packages qui pourraient contenir des fonctions utiles au sujet spécifique qui est le mien.
+
+**Par exemple**
+Si on travaille sur les horaires de bibliothèque, on va se retrouver avec des problématiques précises :
+1. Déterminer les dates et heures d'emprunt
+2. Déterminer les auteurs et autrices les plus empruntées
+3. Déterminer des tendances géographiques.
+
+Ainsi...
+* *traitement de date et données horaires* =&gt; `lubridate` ;
+* *traitement de chaînes de caractère (avec corrections, etc.)* : `stringr` ;
+* *réalisation de cartes légères* : `sf`, `tmap` et `tmaptools`.
+
+Il existe des packages pour toutes les spécialités et tous les sujets.
+
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
