@@ -77,7 +77,7 @@ A la fin de chaque cours, je vous donnerai un petit exercice d'application à r�
 
 
 ### Communication
-Je vous invite à me contacter par mail. valexandre @ leparisien.fr
+Je vous invite à me contacter par mail. Je suis normalement aussi réactif sur Twitter.
 
 ---
 
@@ -98,7 +98,7 @@ Des pertes de temps considérables sont évitées chaque jour par l'application 
 
 ---
 
-# Installation &amp; lancement !
+# 2. Installation &amp; lancement !
 
 ## Rstudio : votre interface
 
@@ -179,7 +179,7 @@ Si la tva passait à 5% sur ce produit, à combien passerait ce produit ?
 
 ```r
 taux_tva &lt;- 0.05
-nouveau_prix_avec_tva_5 &lt;- prix_sans_tva - prix_sans_tva * taux_tva
+nouveau_prix_avec_tva_5 &lt;- prix_sans_tva * (1+taux_tva)
 ```
 
 soit une économie pour le consommateur de...
@@ -191,23 +191,15 @@ economie
 ```
 
 ```
-## [1] 3.432
+## [1] 2.288
 ```
 
 ---
 
 ### Qu'a-t-on appris ?
 
-1. R vous permet de réaliser toutes les opérations arithmétiques de base : il vous suffit de les saisir au clavier dans la console, on a aussi vu que R gérait les priorités dans les opérations.
+R vous permet de réaliser toutes les opérations arithmétiques de base : il vous suffit de les saisir au clavier dans la console, on a aussi vu que R gérait les priorités dans les opérations.
 
-
-```r
-14.3*0.2
-```
-
-```
-## [1] 2.86
-```
 
 ```r
 14.3*taux_tva
@@ -219,11 +211,11 @@ economie
 
 ```r
 # R gère également les priorités
-prix_sans_tva - prix_sans_tva * taux_tva
+prix_sans_tva * (1 + taux_tva)
 ```
 
 ```
-## [1] 10.868
+## [1] 12.012
 ```
 
 On a aussi créé des variables, maintenant qu'on les a créé, cherchons à les comprendre.
@@ -344,15 +336,15 @@ round(prix_ht * 1.2 - prix_ht * 1.05,2)
 ---
 
 ### Les matrices
-Le format classique des maths : toujours le même type de données dans la structure (une matrice en l'occurence).
+Le format classique des maths : toujours le même type de données dans la structure (une matrice en l'occurence). (on les crée en utilisant `as.matrix`)
 
 ### Les dataframes
-Le format "classique" des BDDs : toujours le même type de données par variable.
+Le format "classique" des BDDs : toujours le même type de données par variable.  (on les crée en utilisant `as.data.frame`)
 
 A quoi s'ajoutent :
-* les listes ;
-* les facteurs ;
-* les tibbles (qui sont très proches des dataframes).
+* les listes `as.list`;
+* les facteurs `as.factor`;
+* les tibbles (qui sont très proches des dataframes) `as_tibble`.
 
 ---
   
@@ -455,12 +447,84 @@ Nous apprendrons plus tard comment sélectionner des données ou des sous-ensemb
 
 ---
 
+OOOOouf.
+
+Petite pause après tout ça.
+
+En fait, pourquoi je vous raconte ça ?
+
+---
+
+
+## Programmer en tant que journaliste 1/2
+
+Maîtriser un ou plusieurs langages de programmation, même à un niveau peu avancé, présente de nombreux avantages pour un·e journaliste :
+
+**1. accès aux sources**
+Le traitement programmatique donne accès à des sources autrement inaccessibles : APIs, registres massifs, bases de données, scraping ...
+
+**2. capacité de traitement**
+Les outils en interface graphique (ou *GUI*) ont des limites fortes en volume et complexité de traitement que la programmation permet de lever.
+
+**3. production de formats originaux**
+La programmation ouvre une large palette de formats inacessibles autrement : graphs, interactivité, expérience personnalisée, temps réel, etc.
+
+**4. compréhension technique**
+La manipulation même de l'outil informatique constitue une porte d'entrée dans la réalité technique d'une des composantes centrales de notre société (et donc de sujets qui la traversent).
+
+**5. reproductibilité**
+  Là où les outils en *GUI* nécessitent de reprendre à zéro toute manipulation de données, la programmation permet de reproduire, affiner et perfectionner ses travaux.
+
+---
+![](./img/wrongstats.gif)
+
+---
+  
+## Programmer en tant que journaliste 2/2
+  
+**6. communication avec d'autres métiers**
+Les langages et logiques de programmation constituent la base de la pratique de nombreux métiers, que ce soit dans l'informatique, la recherche ou l'industrie. Partager cette syntaxe facilite la communication et l'échange d'information ou de bonnes pratiques : une bonne occasion de s'inspirer de ces métiers pour mieux faire le vôtre.
+
+**7. rigueur et logique**
+Les logiques sous-jacentes à l'informatique reposent sur un rapport à l'information très différent de celui habituellement mobilisé dans le journalisme. Au déclaratif, contextuel et émotionnel, l'informatique substitue des systèmes de classification catégorielle, une nécessité de structuration de la pensée qui complète ce mode.
+
+
+--
+
+En un mot, et selon mon humble avis, l'informatique peut faire de vous de meilleur·es journalistes.
+
+
+---
+  
+## Pourquoi R ?
+  
+R est un langage de programmation puissant, versatile et en perpétuelle amélioration conçu par et pour des usager·ères quotidien·nes de la donnée.
+
+Il bénéficie de plusieurs atouts clefs qui le rendent extrêmement pratique :
+* **une documentation détaillée et facile à trouver** ;
+* un large spectre **d'extension et de packages adaptés à tous les besoins** (cette présentation est, par exemple, intégralement réalisée en R) ;
+* **une forte interopérabilité avec nombres d'autres technologies et outils** (APIs, autres langages comme C, SQL, Javascript ou Python, etc.) ;
+* **une communauté étendue et accueillante** ;
+* et, cerise sur le gâteau, c'est **open source**.
+
+---
+
+background-image: url(https://media.giphy.com/media/Ae7SI3LoPYj8Q/giphy.gif)
+class: center, top
+## Avec R, vous ne serez jamais seul·e !
+
+---
+
+On reprend sur du plus concret.
+
+---
+
 ## Fonctions
 
 Une **fonction** est une opération que vous pouvez "appeler" en spécifiant les conditions de son exécution.
 
 En pratique, une fonction est appelée en écrivant son nom suivi d'une parenthèse ouverte puis refermée. La plupart des fonctions nécessitent **des arguments**, c'est-à-dire des paramètres qui doivent être listés dans la parenthèse dans un certain ordre ou suivant une certaine nomenclature. Certains arguments sont obligatoires, d'autres facultatifs.
-                                   
+                             
 Une fonction peut être utilisée dans la ligne de commande ou dans un script.
 
 --
@@ -604,8 +668,212 @@ Ainsi...
 
 Il existe des packages pour toutes les spécialités et tous les sujets.
 
+Tout ceci c'est super, mais ce qui va nous intéresser c'est de **garder une trace** de notre travail, d'où l'importance du script.
 
 ---
+
+# 3. Le script
+
+## Le script : votre chaîne de commandes
+
+Nous parlons de script pour désigner un fichier texte qui contient une série d'instructions dans un langage donné. Le nom du fichier en question comporte par ailleurs une extension spécifique permettant à votre navigateur d'identifier immédiatement le langage dans lequel il doit être lu.
+
+
+Le script se présente comme une *chaîne de commande* : il vise à conserver une liste d'opérations à exécuter dans un ordre spécifique.
+
+---
+
+A cet égard, le script comporte des avantages évidents :
+* archivage ;
+* reproductibilité des opérations (très très **très** important dans un quotidien);
+* organisation du travail ;
+* historicisation des commandes ;
+* communicabilité des opérations.
+
+Un script peut connaître plusieurs versions, être collaboratif, corrigé, repris et enfin publié. **Le script est l'équivalent informatique de la copie pour le journalisme.**
+
+---
+
+### Créer un script
+
+Vous pouvez créer un script :
+* via le menu *File -&gt; New File -&gt; R Script* ;
+* avec le raccourci *Ctrl + Shift + n* / *Cmd + Shift + n*.
+
+Un fichier texte vierge apparaîtra alors dans le panneau supérieur gauche, nommé *"Untitled1"*. Vous pourrez commencer à y écrire (*à l'éditer*) immédiatement dans n'importe quel éditeur de texte.
+
+Dès que vous y avez ajouté quelque chose, **sauvegardez-le** :
+* *Ctrl + s* / *Cmd + s* ;
+* choisissez le dossier de destination (voir la partie *Organiser vos fichiers*) ;
+* nommez-le de manière explicite sans oublier l'extension .R.
+
+---
+
+### Utiliser un script
+  
+Vous pouvez utiliser l'interface Rstudio pour lire, éditer et exécuter votre script ligne par ligne ou par portion entière.
+
+Pour exécuter la ou les commandes placées sur une ligne, il vous suffit de vous mettre sur la ligne désirée et d'utiliser le raccourci *Ctrl + Enter / Cmd + Enter*. Le contenu de la ligne apparaît alors dans votre console puis le résultat et / ou les messages associés (warning, erreurs, etc. Nous en reparlerons plus tard)...
+
+Vous pouvez exécuter plusieurs lignes en les sélectionner avec votre curseur. Le raccourci exécutera alors toutes les lignes en surbrillance.
+
+---
+
+Allons-y : on crée un nouveau script qu'on place dans un dossier "Cours_DDJ_R" et qu'on intitule *2022_09_12_exercices_cours_01.R*
+
+On veut créer un tableau indiquant la météo en France, contenant les trois premiers mois de l'année sur la première colonne *mois* et les valeurs 5, 7 et 8 dans la seconde colonne *temperature*.
+
+Quelle.s solution.s devraient fonctionner ? 
+
+
+```r
+mois&lt;-c("janvier", "février", "mars")
+temperature&lt;-c(5, 7, 8)
+```
+
+#### 1
+
+
+```r
+tableaumeteo&lt;-as_tibble(cbind(mois,temperature))
+```
+
+#### 2
+
+
+```r
+tableaumeteo&lt;-as_tibble(mois,temperature)
+```
+
+#### 3
+
+
+```r
+tableaumeteo&lt;-as_tibble(rbind(mois,temperature))
+```
+
+---
+
+#### Les commentaires
+
+Un commentaire écarte le texte qui se trouve à sa droite explicitement des autres commandes pour ne pas être exécutée (*"évaluée"*). Dans R (comme dans Python et Javascript), on *"commente"* une ligne en la faisant débuter par un *"#"*.
+
+Vous pouvez également utilser le raccourci Rstudio *Ctrl + Shift + c / Cmd + Shift + c* pour commenter ou *décommenter"* plusieurs lignes sélectionner d'un coup :
+
+
+```r
+# install.packages("tidyverse")
+# la ligne précédente ne s'exécutera pas car elle est commentée
+
+update.packages("janitor") # celle-ci s'éxecuter jusqu'au #
+```
+
+---
+#### Les parties
+
+Vous pouvez également utiliser la fonctionnalité *"Sections"* de Rstudio pour structurer votre script en parties.
+
+Cette fonction vous permet de créer des séparations dans votre script en insérant des titres précédés de *"##"* et suivi d'au moins *"---"*. Dès lors, vous pouvez "replier" une partie du script pour le cacher ou naviguer d'une partie à l'autre via le menu en bas à gauche du panneau Script :
+
+
+```r
+## Partie 1 - libs ------
+
+library(tidyverse)
+
+## Partie 2 - nettoyage ------
+
+var &lt;- read_csv("./data/file.csv")
+```
+
+---
+
+### Aparté : organiser vos fichiers 1/2
+
+**L'organisation de vos fichiers constitue un levier d'efficacité déterminant dans votre usage de l'informatique en général**, et R n'échappe pas à la règle.
+
+Quelques considérations générales :
+
+#### Dossier dédié
+Je vous demande créer un dossier pour ce cours, facile à trouver, clairement identifié.
+
+#### Projets
+Je vous recommande d'organiser votre travail en projet ;
+
+#### Arborescence
+Je vous recommande d'adopter une *arborescence de projet*, c'est-à-dire d'organiser vos sources et de les ranger dans des dossiers suivant leur nature et leur usage. En pratique, centraliser les fichiers dans un dossier `/data`, les images dans un dossier `/img`, la doc dans un fichier `/doc`, etc. ;
+
+---
+
+### Aparté : organiser vos fichiers 2/2
+
+#### Filepath
+Je vous demande d'utiliser les *chemins de fichier* dans vos scripts pour appeler des fichiers. Ce terme désigne l'adresse de chaque élément dans votre système de fichier (pour en savoir plus sur le [PATH](https://fr.wikipedia.org/wiki/Chemin_d%27acc%C3%A8s#:~:text=En%20informatique%2C%20le%20chemin%20d,dans%20le%20syst%C3%A8me%20de%20fichiers.)).
+
+#### Nomenclature
+Je vous conseille de nommer de manière standard, claire et interopératbles vos fichiers et dossiers. C'est-à-dire :
+* **pas d'espace dans les titres, JAMAIS !** (remplacez-les par des underscore, "_") ;
+* pas de caractères spéciaux ;
+* et enfin : **nommez tout comme si vous deviez retomber dessus dans deux ans**.
+
+Vous trouverez des liens spécifiques dans la documentation du cours sur ce sujet.
+
+Après, vous êtes maître chez vous et il vaut mieux se retrouver dans son bordel que de se perdre chez soi à cause du rangement d'un autre.
+
+---
+
+
+background-image: url("./img/15commandements.gif")
+class: center, top, inverse
+
+
+# 4. Conseils pratiques
+
+---
+  
+## Commentez tout le temps
+
+Les commentaires vous permettent, entre autres :
+* de marquer les étapes dans votre script ;
+* d'expliciter l'usage d'une fonction ;
+* de sourcer une méthode ;
+* de pointer des problèmes ...
+
+Ce sont de précieux marques-pages ou penses-bêtes qui vous aideront ainsi que celles et ceux avec qui vous partagerez votre code. Suivez donc les conseils des meilleur·es usager·ères de R : [commentez un maximum](https://twitter.com/drob/status/987795355659112453) !
+
+![](./img/commenting_braininjury.png)
+
+---
+
+## Sachez où trouver des réponses
+
+**Les erreurs sont vos amies.**
+
+![](./img/whatthefuckdidido.gif)
+
+---
+
+La documentation est surabondante sur R : **si vous rencontrez une erreur en tant que débutant·e, il y a de fortes chances que quelqu'un·e l'ai déjà rencontrée avant vous !**
+
+Soyez-donc méthodique :
+* **lisez vos erreurs** ;
+* cherchez dans la documentation en tapant ? ou ?? avant le nom d'une lib ou d'une fonction dans la console ;
+* copiez-collez le message dans Google ;
+* regardez sur [StackOverflow](https://stackoverflow.com/) ;
+* **documentez vos erreurs** ;
+* une fois que vous avez tout essayé, vous pouvez m'écrire.
+
+---
+
+![](./img/xkcd_techsupport.png)
+
+---
+
+background-image: url("https://media.giphy.com/media/xT1XGzAnABSXy8DPCU/giphy.gif")
+class: center, top, inverse
+
+## La prochaine fois, nous irons à la pêche aux données !
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
