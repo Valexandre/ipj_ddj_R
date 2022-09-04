@@ -49,7 +49,7 @@ La base de données est au data journaliste ce que l'entretien est au portraitis
 Ces outils nécessitent l'usage courant de plusieurs langages ou syntaxes :
 * **R**, langage de programmation statistique orienté objet ;
 * **Markdown**, syntaxe de mise en forme de texte ;
-* les **regex** (ou *expression régulière*), langage formel de description des chaînes de charactère ;
+* les **regex** (ou *expression régulière*), langage formel de description des chaînes de caractères ;
 * **Xpath**, langage de requêtes utilisé pour traiter les formats HTML et XML.
 
 Chacun de ces outils sera présenté, documenté et utilisé de manière concrète pendant le cours. La théorie sera réduite au strict minimum nécessaire, nous sommes dans un cours pratique.
@@ -75,7 +75,7 @@ Je vous invite à me contacter par mail. Je suis normalement aussi réactif sur 
 
 ## Grands principes
 
-**Je vous encourage à vous tourner vers des solutions programmatiques et open source** pour le maximum de vos usages : la dépendance aux outils propriétaires (qu'ils soient payant ou gratuit) peut constituer une faiblesse voire un danger pour les journalistes (cf. [Google Fusion Tables](https://www.fastcompany.com/90279779/rip-fusion-tables-google-is-killing-off-the-beloved-data-visualization-tool) et autres plantages).
+**Je vous encourage à vous tourner vers des solutions programmatiques et open source** pour le maximum de vos usages : la dépendance aux outils propriétaires (qu'ils soient payants ou gratuits) peut constituer une faiblesse voire un danger pour les journalistes (cf. [Google Fusion Tables](https://www.fastcompany.com/90279779/rip-fusion-tables-google-is-killing-off-the-beloved-data-visualization-tool), Google Maps et autres plantages).
 
 Ce cours est tiré en grande partie du travail du très talentueux Sylvain Lapoix, qui dans sa grande maîtrise de l'open-source, m'a autorisé à m'inspirer librement de ses trouvailles.
 
@@ -100,14 +100,21 @@ Des pertes de temps considérables sont évitées chaque jour par l'application 
 
 
 ---
-  
-## La ligne de commande
-  
+
+background-image: url("https://media.giphy.com/media/G6sJqVpD1U4jC/giphy.gif")
+class: center, top, inverse
+
+
+## La ligne de commande 1/2
+
+
+---
+
+## La ligne de commande 2/2
+
 La **console** (ou "invite de commande") de R vous permet de réaliser des opérations sans utiliser l'interface graphique (GUI) : il s'agit d'une "interface en ligne de commande" (ou CLI).
 
 Elle permet de réaliser des opérations simples, lancer des scripts et tester des bouts de code.
-
-![](https://media.giphy.com/media/G6sJqVpD1U4jC/giphy.gif)
 
 ---
 
@@ -227,7 +234,7 @@ prix_ht <- c(1999.99, 20, 242/2)
 prix_ht
 ```
 
-**Toutes les structures de données de R peuvent être construites avec ou décompensées en vecteurs**.
+**Toutes les structures de données de R peuvent être construites avec ou décomposées en vecteurs**.
 
 ---
 
@@ -295,7 +302,7 @@ vitesses_moyennes<- c(14, 13, 13, 16, 23, 40)
 
 ---
 
-Nous pouvons les assembler en les mettant entre parenthèse après l'une des deux fonctions citée ci-dessus.
+Nous pouvons les assembler en les mettant entre parenthèse après l'une des deux fonctions citées ci-dessus.
 
 Quel résultat obtenons-nous ?
 
@@ -372,7 +379,10 @@ La manipulation même de l'outil informatique constitue une porte d'entrée dans
   Là où les outils en *GUI* nécessitent de reprendre à zéro toute manipulation de données, la programmation permet de reproduire, affiner et perfectionner ses travaux.
 
 ---
-![](./img/wrongstats.gif)
+
+
+background-image: url(./img/wrongstats.gif)
+class: center, top
 
 ---
   
@@ -452,13 +462,12 @@ Vous pouvez également chercher sur Google mais Rstudio embarque déjà une trè
 
 Fonctions exploratoires de base
 
-* summary()
-* class()
-* length()
-* names()
-* order()
-* sort()
-* sample()
+* `summary()`: renvoie le résumé d'une table 
+* `class()` : renvoie la classe d'un objet
+* `length()`: renvoie la longueur d'un vecteur
+* `names()` : renvoie les en-têtes du tableau ou des listes
+* `sort()` : renvoie l'objet trié (ordre alphabétique ou numérique)
+* `sample()` : renvoie un ou plusieurs éléments au hasard
 
 
 ---
@@ -730,7 +739,8 @@ Ce sont de précieux marques-pages ou penses-bêtes qui vous aideront ainsi que 
 
 **Les erreurs sont vos amies.**
 
-![](./img/whatthefuckdidido.gif)
+background-image: url("./img/whatthefuckdidido.gif")
+class: center, top, inverse
 
 ---
 
@@ -746,7 +756,15 @@ Soyez-donc méthodique :
 
 ---
 
-![](./img/xkcd_techsupport.png)
+background-image: url("./img/xkcd_techsupport.png")
+class: center, top, inverse
+
+---
+
+# 5. Devoir
+
+Pour la prochaine fois, vous devrez me présenter en un feuillet un.e journaliste, si possible, mais pourquoi pas data-scientist, infographiste, utilisateur.rice de R (vous trouverez beaucoup de profils différents en cherchant sur Twitter avec le #Rstats, ou parmi les auteurs de packages). 
+Expliquez moi ce qui vous intéresse dans son utilisation de R, notamment si elle se rapproche de ce que vous aimeriez produire avec R.
 
 ---
 
