@@ -1,0 +1,16 @@
+---
+title: "IPJ - Datajournalisme"
+subtitle: "Tous les cours"
+author: "Victor Alexandre"
+date: "12/09/2022"
+output:
+  xaringan::moon_reader:
+  lib_dir: libs
+nature:
+  highlightStyle: github
+highlightLines: true
+countIncrementalSlides: false
+
+---
+
+# Voir les cours directement
