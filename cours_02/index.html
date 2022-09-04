@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>IPJ - Datajournalisme</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Victor Alexandre" />
+    <script src="index_files/header-attrs-2.7/header-attrs.js"></script>
+    <link href="index_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="index_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# IPJ - Datajournalisme
+## Cours 02 : Lire les données
+### Victor Alexandre
+### 19/09/2022
+
+---
+
+
+
+background-image: url("./img/kindofabigdeal.gif")
+class: center, top, inverse
+
+# 1. Formats de données
+
+---
+
+### Les grands types de données
+
+Nous pouvons classer les données sous deux grandes catégories, suivant la manière dont elles sont disponibles :
+
+.pull-left[#### les données structurées
+Données dont l'organisation définit les relations au sein d'une base de données.
+
+**Qualité** : lisibles par la machine, compactes, faciles à analyser, manipuler et visualiser ;
+
+**Défaut** : limitées dans leur capacité descriptive, rares, nécessitent un traitement préalables, pas toujours documentées.
+]
+
+.pull-left[#### les données non structurées
+Données ne présentant pas de structure identifiable.
+
+**Qualité** : lisibles par l'oeil humain, très abondantes, très variées, riches d'information ;
+
+**Défaut** : difficilement lisibles par la machine (sauf à passer par du machine learning), nécessitent un important travail de tri et pré traitement, volumineuses, peu qualitatives.
+]
+
+---
+
+background-image: url("https://media.giphy.com/media/JPrw5LZ6Qa3D2Eus3K/giphy.gif")
+class: center, top, inverse
+
+## Les données structurées
+
+---
+
+### Petit exercice pratique
+
+C'est parti :
+* Ouvrez Sublime Text, ou Bloc Notes ou n'importe quel éditeur de texte hors Word ;
+* Tapez le bloc de texte suivant : `nom,prenom,age`
+* Complétons-le ensemble en gardant la même nomenclature.
+
+--
+
+Puis :
+* Copiez l'intégralité du bloc (Ctrl + A / Ctrl + C) ;
+* Dans votre console R, tapez :
+
+```r
+read.csv(text = "collez votre bloc de texte ici")
+```
+
+Que se passe-t-il ?
+
+---
+
+### Les différents modes de structuration de données
+
+Pour définir les relations entre les données, les différents formats mobilisent deux schémas principaux :
+
+.pull-left[#### La délimitation
+
+Les fichiers délimités utilisent certains signes pour signifier la séparation entre deux types de champs principaux : les cellules et les lignes. Ce sont les formats les plus légers et faciles à lire mais ils s'avèrent limités pour créer des bases de données relationnelles.
+
+Le plus courant est le **CSV** (*comma separated value*) mais on trouvera aussi des TSV, SCSV (parfois appelés abusivement "CSV") et d'autres fantaisies.
+
+
+]
+
+.pull-right[#### Le balisage
+
+Les fichiers balisés reposent sur une double structure :
+* des objets ordonnés en liste ;
+* des pairs "nom" / "valeur" à l'intérieur de chaque objet.
+
+Schématiquement, chaque donnée est "étiquettée" d'un nom partagé avec les données ayant la même fonction dans les autres objets de l'ensemble. Ce qui rend ce type de fichier moins facile à lire par l'oeil humain mais beaucoup plus facile à manier de manière relationnel et peut contenir beaucoup plus de métadonnées.
+
+Les formats les plus courants de ce type sont le **json** et le **xml**.
+]
+
+---
+
+### Critères de choix d'un format de fichier
+
+Tous les formats de fichiers n'ont pas les mêmes avantages. Pour vous aider à mieux comprendre comment arbitrer entre les formats disponibles, voici quelques critères :
+* **interopérabilité** : propension à être réutilisable sans déperdition de données par différents logiciels ;
+* **poids** : espace occupé par la collection de données sur le disque ou le serveur ;
+* **enrichissement** : capacité de stockage de couches supplémentaires de données et de métadonnées ;
+* **licence** : statut du format de fichier sur le plan de la propriété intellectuelle.
+
+--
+
+Car, de même qu'il existe des logiciels propriétaires, il existe des formats propriétaires :
+* **xlsx**, **docx** et **ppt** (entre autres) sont propriétés de Microsoft via Office ;
+* **psd** via Photoshop propriété de Adobe ;
+* **pdf** l'était également jusqu'en 2008 (devenu depuis norme ISO) ;
+* **shp** et ses formats associés (**shx** et cie) sont propriétés d'Esri via le logiciel de cartographie ArcGIS ;
+* etc.
+
+---
+
+**Amusons nous à ouvrir les résultats d'élections présidentielles**
+
+Nous voir ces données en format `xml`, en `excel`, en format `json` et en format `csv`, pour comprendre tout ça.
+
+---
+
+class: inverse, center, middle
+background-image: url("./img/pdtl_22_xml.jpg")
+background-size: contain
+
+---
+
+
+class: inverse, center, middle
+background-image: url("./img/pdtl_22_xls.jpg")
+background-size: contain
+
+
+---
+
+class: inverse, center, middle
+background-image: url("./img/pdtl_22_json.jpg")
+background-size: contain
+
+
+---
+
+class: inverse, center, middle
+background-image: url("./img/pdtl_22_txt.jpg")
+background-size: contain
+
+
+---
+
+## Les données non-structurées
+
+Les données non structurées, c'est un peu tout le reste : le contenu de page web qu'il faudra aller récupérer et organiser, des tableaux écrits à la main qu'il faudra recopier, des pdfs scannés de travers qu'il faudra redresser et récupérer, etc.
+
+---
+
+# 2. Lire les données tabulaires
+
+Si vous souhaitez travailler en puriste, vous pouvez apprendre tous les arguments des fonctions `read_csv`, `read_delim`, `read_csv2` ou `read_xl`. Les `?` seront là pour vous aider.
+
+De mon côté, je vous suggère d'utiliser pleinement les outils à votre disposition dans **l'environnement**.
+
+![](./img/import_dataset.jpg)
+
+---
+
+Manipulons ensemble un fichier `csv` :
+
+[Téléchargez ce fichier data/vacsi_csv]("./data/vacsi.csv")
+
+1. Import dataset
+2. From text (readr)
+
+Navigons ensemble et une fois les réglages effectués, copions collons cela dans un script et stockons le dans notre environnement `SONPTINOM&lt;- votre code`
+
+---
+
+Manipulons ensemble un fichier `xls` :
+
+[Téléchargez ce fichier data/vacsi_idf.xls]("./data/vacsi_idf.xls")
+
+1. Import dataset
+2. From Excel
+
+Navigons ensemble et une fois les réglages effectués, copions collons cela dans un script et stockons le dans notre environnement `SONPTINOM&lt;- votre code`.
+
+
+---
+
+Manipulons ensemble un fichier `json` :
+
+[Téléchargez ce fichier data/vacsi_p75.json]("./data/vacsi_p75.json")
+
+1. Import dataset
+2. From Excel
+
+Navigons ensemble et une fois les réglages effectués, copions collons cela dans un script et stockons le dans notre environnement `SONPTINOM&lt;- votre code`.
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
