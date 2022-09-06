@@ -429,6 +429,7 @@ vecteur > 10
 ---
 ## Le devoir pour la prochaine fois
 
-- A partir du jeu de données des maires, réalisez les nettoyages que vous considérerez nécessaires et réalisez deux tableaux croisés à l'aide de la fonction `table` qui permettront d'en apprendre davantage sur tout ou partie de cette base de données.
+- A partir du jeu de données des maires, réalisez les nettoyages que vous considérerez nécessaires et réalisez deux tableaux croisés à l'aide de la fonction `table` qui permettront d'en apprendre davantage sur tout ou partie de cette base de données, incluant notamment mais pas exclusivement l'âge, le genre et la profession.
 
 Ecrivez entre 300 et 600 signes pour expliquer pourquoi vous avez réalisé ce calcul et ce que vous en avez appris.
+Envoyez moi votre code commenté en fichier R, ainsi que votre texte par mail, avant la semaine prochaine.
