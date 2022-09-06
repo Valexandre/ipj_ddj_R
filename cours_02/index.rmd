@@ -168,7 +168,7 @@ Manipulons ensemble un fichier `csv` :
 
 *Faites bien attention à la façon dont vous organiser votre arborescence de fichiers !*
 
-[Téléchargez ce fichier data/vacsi_csv]("./data/vacsi.csv")
+[Téléchargez ce fichier data/vacsi_csv](data/vacsi.csv)
 
 1. Import dataset
 2. From text (readr)
@@ -179,7 +179,7 @@ Navigons ensemble et une fois les réglages effectués, copions collons cela dan
 
 Manipulons ensemble un fichier `xls` :
 
-[Téléchargez ce fichier data/vacsi_idf.xls]("./data/vacsi_idf.xls")
+[Téléchargez ce fichier data/vacsi_idf.xls](data/vacsi_idf.xls)
 
 1. Import dataset
 2. From Excel
@@ -199,7 +199,7 @@ install.packages("jsonlite")
 library(jsonlite)
 ```
 
-[Téléchargez ce fichier data/vacsi_p75.json]("./data/vacsi_p75.json")
+[Téléchargez ce fichier data/vacsi_p75.json](data/vacsi_p75.json)
 
 ```{r, eval=FALSE}
 SONPTINOM<-fromJSON("lienvertvotrefichier/vacsi_p75.json")
@@ -266,12 +266,15 @@ Cette approche vise à simplifier la lecture et la manipulation des données.]
 ![](./img/hadley.jpg)
 ]
 ]
+.pull-left[
+![](./img/tidydata.png)
+]
 
 ---
 
 ## Apprendre à regarder ses données
 
-La première étape du nettoyage consiste à examiner ses données afin d'en connaître les traits généraux : combien de variables ? Combien de valeur par variable ? Quelle est leur distribution ? Quel rapport entretiennent-elles entre elles ? Y a-t-il des valeurs non renseignées ? Etc.
+La première étape du nettoyage consiste à examiner ses données afin d'en connaître les traits généraux : combien de variables ? Combien de valeurs par variable ? Quelle est leur distribution ? Quels rapports entretiennent-elles ? Y a-t-il des valeurs non renseignées ? Etc.
 
 `{R base}` et le `{tidyverse}` offrent de nombreux outils d'exploration préalables qui permettent de créer des aperçus des données.
 
@@ -284,10 +287,14 @@ Votre premier réflexe face à une base de données, c'est de voir *"comment ell
 Pour voir les dernières observations, vous pouvez utiliser sa fonction miroir, `tail()`. Il est possible de paramétrer le nom d'observations affichées en passant à l'argument `n` la valeur correspondante.
 
 Jettons un oeil aux premières lignes du jeu de données 4 du Répertoire national des élu·es (ou RNE), et plus spécifiquement celui relatif aux maires [disponible sur Data.gouv.fr ou ici](https://www.data.gouv.fr/en/datasets/repertoire-national-des-elus-1/)
+---
+
+```{r eval=TRUE, message=FALSE}
+library(tidyverse)
+```
 
 ```{r head}
-library(tidyverse)
-rne4 <- read_delim("./data/rne-maires.csv", "\t", escape_double = FALSE, trim_ws = TRUE)
+rne4 <- read_delim("./data/rne-maires.csv", "\t", escape_double = FALSE, col_types = cols(`Code de la collectivité à statut particulier` = col_character(),     `Libellé de la collectivité à statut particulier` = col_character()), trim_ws = TRUE)
 head(rne4)
 ```
 
@@ -298,6 +305,7 @@ head(rne4)
 Une fois ce premier aperçu parcouru, il est nécessaire de disposer d'une image plus générale. La première étape consiste à regarder les variables du jeu de données et leur type.
 
 Le `{tidyverse}` propose pour cela une fonction très compacte et pratique : `glimpse()`. Quand un jeu de données lui est passé, `glimpse()` produit une synthèse rapide : nombre de ligne, nombre de colonne et premières valeurs pour chacune des variables à disposition ainsi que son type.
+---
 
 ```{r glimpse}
 glimpse(rne4)
@@ -311,6 +319,7 @@ glimpse(rne4)
 
 `summary()` analyse le jeu de données et, plutôt qu'un aperçu de quelques valeurs, propose une synthèse par variable (notamment des éléments de distribution). A ce titre, **`summary()` s'avère beaucoup plus adapté pour survoler un jeu de données contenant des données numériques que pour les chaînes de caractère**.
 
+---
 
 ```{r summary}
 summary(rne4)
@@ -320,9 +329,11 @@ summary(rne4)
 
 ### Petite pépite méconnue : skimr::skim
 
-Issue du package skimr, la fonction skim permet d'obtenir une sorte de mélange de tout ça, avec même de petits graphiques
+Issue du package skimr, la fonction skim permet d'obtenir une sorte de mélange de tout ça, avec même de petits graphiques.
 
-```{r skim}
+---
+
+```{r skim,warning=FALSE}
 library(skimr)
 skim(rne4)
 ```
@@ -334,7 +345,9 @@ skim(rne4)
 
 La distribution des valeurs est la façon dont l'ensemble des valeurs sont réparties sur la gamme des valeurs possibles dans la base de données. Il s'agit d'un outil d'analyse très utile pour les données numériques mais tout autant pour les chaînes de caractère ou les booléens.
 
-La fonction de `{rbase}` `table()` permet de réaliser une synthèse de la distribution des valeurs pour une variable d'un jeu de données. Elle prend pour argument la base de données suivie de `$nomdelavariable`. Par exemple, si nous souhaitons connaître la distribution des `Libellé de la catégorie socio-professionnelle`, nous pouvons appeler cette fonction de la manière suivante :
+La fonction de `{rbase}` `table()` permet de réaliser une synthèse de la distribution des valeurs pour une variable d'un jeu de données. Elle prend pour argument la base de données suivie de `$nomdelavariable`. Par exemple, si nous souhaitons connaître la distribution des `Libellé de la catégorie socio-professionnelle`, nous pouvons appeler cette fonction de la manière suivante.
+
+---
 
 ```{r table}
 rne4 <- rename(rne4, c("csp"="Libellé de la catégorie socio-professionnelle")) # d'abord, renommons cette variable relou
@@ -353,7 +366,7 @@ En la combinant avec `table()`, nous obtenons une synthèse sur le nombre de TRU
 table(is.na(rne4$`Libellé de la collectivité à statut particulier`))
 ```
 
-Nous avons donc bien un problème sur cette variable, qu'on dira *"mal renseignée"*.
+Cette variable n'est pas renseignée sur tous les champs. 
 
 **Tester une variable avec `is.na()` est une vérification de complétude souvent utile avant d'utiliser une variable.**
 
@@ -401,13 +414,21 @@ Il existe de nombreuses fonctions permettant de réaliser des tests (notamment l
 
 ### Aparté : les tests 2/2
 
-La plupart des outils que nous manipulons en R procède par des tests implicites ou explicitent. Nous pourrions résumer le principe par la question :
+La plupart des outils que nous manipulons en R procède par des tests implicites ou explicites. Nous pourrions résumer le principe par la question :
 *"Faut-il appliquer l'opération à l'élément de rang N ?"*
 
-Aquoi l'on peut répondre par oui ou par non.
+A quoi l'on peut répondre par oui ou par non.
 
 En R, quand un test est réalisé sur un vecteur, il renvoie un vecteur de même longueur dont chaque valeur est le résultat du test sur la valeur du vecteur d'origine. Par exemple :
 ```{r test_vecteur}
 vecteur <- c(3,1,9,15,22)
 vecteur > 10
 ```
+
+
+---
+## Le devoir pour la prochaine fois
+
+- A partir du jeu de données des maires, réalisez les nettoyages que vous considérerez nécessaires et réalisez deux tableaux croisés à l'aide de la fonction `table` qui permettront d'en apprendre davantage sur tout ou partie de cette base de données.
+
+Ecrivez entre 300 et 600 signes pour expliquer pourquoi vous avez réalisé ce calcul et ce que vous en avez appris.
