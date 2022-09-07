@@ -2,7 +2,6 @@
 title: "IPJ - Datajournalisme"
 subtitle: "Cours 03 : L'analyse de données"
 author: "Victor Alexandre"
-date: "12/09/2022"
 output:
   xaringan::moon_reader:
   lib_dir: libs
@@ -20,8 +19,6 @@ knitr::opts_chunk$set(warning=FALSE,
                       message = FALSE)
 ```
 
----
-
 # 1. L'analyse, par où commencer ?
 
 ---
@@ -33,10 +30,10 @@ Avant toute **analyse**, faîtes-vous un bloc de code où :
 2. **identifier ses dimensions** ;
 3. **renommer les variables**.
 
-Nous travaillerons aujourd'hui sur le jeu de données preuves de covoiturage (édition octobre 2020), [disponible sur data.gouv.fr en scsv](https://www.data.gouv.fr/en/datasets/trajets-realises-en-covoiturage-registre-de-preuve-de-covoiturage/).
+Nous travaillerons aujourd'hui sur le jeu de données preuves de covoiturage (édition juillet 2022), [disponible sur data.gouv.fr en scsv](https://www.data.gouv.fr/fr/datasets/trajets-realises-en-covoiturage-registre-de-preuve-de-covoiturage/).
 
 ```{r load_covoit}
-covoit <- read_csv2("https://www.data.gouv.fr/en/datasets/r/729ce224-33a4-41b1-9422-2586af67de6e")
+covoit <- read_csv2("data/2022-07.csv")
 ```
 
 ---
@@ -50,7 +47,7 @@ covoit <- read_csv2("https://www.data.gouv.fr/en/datasets/r/729ce224-33a4-41b1-9
 
 ```{r explo_covoit}
 table(is.na(covoit$journey_id))
-unique(covoit$journey_start_postalcode)
+unique(covoit$journey_start_insee)
 ```
 
 
@@ -149,7 +146,26 @@ Une fois votre question formulée, il s'agit de lister les préalables nécessai
 * calculer pour tout le jeu de données : `group_by() %>% summarise()` ;
 * etc.
 
---
+---
+
+
+background-image: url("./img/mutate_horst.png")
+class: center, top, inverse
+background-size:contain
+
+---
+
+background-image: url("./img/filter_horst.png")
+class: center, top, inverse
+background-size:contain
+---
+
+
+background-image: url(./img/lubridate_horst.png )
+class: center, top, inverse
+background-size:contain
+---
+
 
 ### Exercice
 
@@ -208,10 +224,10 @@ Source : [RStudio Cheatsheets](https://github.com/rstudio/cheatsheets).]
 
 Nous pouvons tenter d'étudier la relation entre le nombre de trajet en covoiturage et la présence d'une aire de covoiturage.
 
-Pour ce faire, chargeons la Base Nationale des Lieux de Covoiturage (BNLC, [dispo sur data.gouv.fr](https://www.data.gouv.fr/en/datasets/base-nationale-des-lieux-de-covoiturage/)) et voyons comment la joindre au jeu de données trajets :
+Pour ce faire, chargeons la Base Nationale des Lieux de Covoiturage (BNLC, [dispo sur data.gouv.fr](https://www.data.gouv.fr/fr/datasets/base-nationale-des-lieux-de-covoiturage/)) et voyons comment la joindre au jeu de données trajets :
 
 ```{r left_join_aires}
-aires <- read_csv("https://www.data.gouv.fr/en/datasets/r/3c705389-0a9c-49e7-ae35-6c17dff20723")
+aires <- read_csv("data/bnlc.csv")
 glimpse(aires)
 ```
 
@@ -225,11 +241,14 @@ class: center, top, inverse
 
 ---
 
-background-image: url("https://media.giphy.com/media/PNbQVLoUAYUoHF46UP/giphy.gif")
-class: center, top
+background-image: url("https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/code_hero.jpg")
+class: center, top, inverse
+background-size:contain
+
+---
 
 ## Trouvez-moi un sujet dans la base covoiturage
 
-.footnote[Cet exercice sera noté. Je vous demande une proposition d'un feuillet et les calculs qui vous y ont mené dans un .Rmd suivant la nomenclature habituelle.<br>**Vous avez jusqu'au 8/12/2020 à minuit (heure du mail)**.]
+.footnote[Cet exercice sera noté. Je vous demande une proposition d'un feuillet et les calculs qui vous y ont mené dans un .Rmd suivant la nomenclature habituelle.<br>**Merci de respecter les horaires de rendu**.]
 
 ---

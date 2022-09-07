@@ -2,7 +2,6 @@
 title: "IPJ - Datajournalisme"
 subtitle: "Cours 01 : R, votre nouvel outil"
 author: "Victor Alexandre"
-date: "12/09/2022"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -219,6 +218,13 @@ La valeur est une chaîne de caractères de longueur libre. Il existe cependant 
 * character (chaînes de caractères) ;
 * logical (booléens)
 * autres (dates, geo, etc.)
+
+---
+
+background-image:url(img/types_donnees_horst.png)
+class: center, top, inverse
+background-size: contain
+
 
 ---
   
