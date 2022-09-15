@@ -30,10 +30,11 @@ Avant toute **analyse**, faîtes-vous un bloc de code où :
 2. **identifier ses dimensions** ;
 3. **renommer les variables**.
 
-Nous travaillerons aujourd'hui sur le jeu de données preuves de covoiturage (édition juillet 2022), [disponible sur data.gouv.fr en scsv](https://www.data.gouv.fr/fr/datasets/trajets-realises-en-covoiturage-registre-de-preuve-de-covoiturage/).
+Nous travaillerons aujourd'hui sur le jeu de données preuves de covoiturage (édition juillet 2022), [disponible sur data.gouv.fr en scsv](https://www.data.gouv.fr/fr/datasets/trajets-realises-en-covoiturage-registre-de-preuve-de-covoiturage/), ou [https://github.com/Valexandre/ipj_ddj_R/raw/main/cours_04/data/covoiturage_filtre_idf.rda](filtré sur l'Ile de France à cette adresse ci).
 
 ```{r load_covoit}
-covoit <- read_csv2("data/2022-07.csv")
+getwd()
+covoit <- readRDS("../cours_04/data/covoiturage_filtre_idf.rda")
 ```
 
 ---
@@ -47,7 +48,7 @@ covoit <- read_csv2("data/2022-07.csv")
 
 ```{r explo_covoit}
 table(is.na(covoit$journey_id))
-unique(covoit$journey_start_insee)
+unique(covoit$journey_start_insee)[1:30]
 ```
 
 
@@ -180,18 +181,6 @@ background-image: url("https://media.giphy.com/media/l2SpUEiwphoktXT4Q/giphy.gif
 class: center, top, inverse
 
 # 4. Compléter vos données
-
----
-
-## cbind / rbind
-
-La première solution simple pour compléter vos données consiste à y adjoindre des données de même format.
-
-Dans le cas de la base preuve de covoiturage, le jeu est mensuel. Vous pouvez donc le compléter avec un `rbind()`.
-
-**ATTENTION** : vous ne pouvez adjoindre que deux bases ayant le même nombre, type et nom de variable. Il faudra donc joindre les jeux avant de réalier les opérations de nettoyage.
-
-Heureusement, vous pouvez intégrer `rbind()` dans votre pipeline.
 
 ---
 

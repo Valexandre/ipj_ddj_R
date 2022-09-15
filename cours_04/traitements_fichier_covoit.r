@@ -1,0 +1,5 @@
+library(tidyverse)
+DonneescovoitIDF<-read_delim("https://www.data.gouv.fr/fr/datasets/r/b8c92669-ea27-4383-9257-ef823f56443e", ";", escape_double = FALSE, col_types = cols(journey_start_insee = col_character(),journey_start_department = col_character(),journey_end_insee = col_character()), trim_ws = TRUE)
+DonneescovoitIDF<-DonneescovoitIDF%>%filter(journey_start_department %in% c(75,77,78,91:95) | journey_end_department %in% c(75,77,78,91:95))
+getwd()
+saveRDS(DonneescovoitIDF,"cours_04/data/covoiturage_filtre_idf.rda")
