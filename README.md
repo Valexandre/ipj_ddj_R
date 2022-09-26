@@ -13,3 +13,8 @@ https://mapping-in-r-workshop.ryanpeek.org/index.html
 https://geocompr.robinlovelace.net/intro.html
 
 https://rcarto.github.io/carto_avec_r/index.html
+
+
+Graphs
+
+https://r-graph-gallery.com/index.html
