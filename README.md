@@ -18,3 +18,5 @@ https://rcarto.github.io/carto_avec_r/index.html
 Graphs
 
 https://r-graph-gallery.com/index.html
+
+https://joeystanley.com/downloads/190904-ggplot2_theme#2_theme_elements
