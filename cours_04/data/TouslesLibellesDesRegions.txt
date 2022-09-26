@@ -1,0 +1,19 @@
+"reg","cheflieu","tncc","ncc","BonNomDeDep","libelle","DuDep","AuDep","LieuDep"
+"01","97105","3",GUADELOUPE,Guadeloupe,Guadeloupe,de Guadeloupe,à la Guadeloupe,en Guadeloupe
+"02","97209","3",MARTINIQUE,Martinique,Martinique,de Martinique,à la Martinique,en Martinique
+"03","97302","3",GUYANE,Guyane,Guyane,de Guyane,à la Guyane,en Guyane
+"04","97411","0",LA REUNION,La Réunion,La Réunion,de La Réunion, à La Réunion,à La Réunion
+"06","97608","0",MAYOTTE,Mayotte,Mayotte,de Mayotte,à Mayotte,à Mayotte
+"11","75056","1",ILE DE FRANCE,Ile-de-France,Ile-de-France,d'Ile-de-France,à l'Ile-de-France,en Ile-de-France
+"24","45234","2",CENTRE VAL DE LOIRE,Centre-Val de Loire,Centre-Val de Loire,du Centre-Val de Loire,au Centre-Val de Loire,en Centre-Val de Loire
+"27","21231","0",BOURGOGNE FRANCHE COMTE,Bourgogne-Franche-Comté,Bourgogne-Franche-Comté,de Bourgogne-Franche-Comté,à la Bourgogne-Franche-Comté,en Bourgogne-Franche-Comté
+"28","76540","0",NORMANDIE,Normandie,Normandie,de Normandie,à la Normandie,en Normandie
+"32","59350","4",HAUTS DE FRANCE,Hauts-de-France,Hauts-de-France,des Hauts-de-France,aux Hauts-de-France,dans les Hauts-de-France
+"44","67482","2",GRAND EST,Grand Est,Grand Est,du Grand Est,au Grand Est,dans le Grand Est
+"52","44109","4",PAYS DE LA LOIRE,Pays de la Loire,Pays de la Loire,des Pays de la Loire,aux Pays de la Loire,dans les Pays de la Loire
+"53","35238","0",BRETAGNE,Bretagne,Bretagne,de Bretagne,à la Bretagne,en Bretagne
+"75","33063","3",NOUVELLE AQUITAINE,Nouvelle-Aquitaine,Nouvelle-Aquitaine,de Nouvelle-Aquitaine,à la Nouvelle-Aquitaine,en Nouvelle-Aquitaine
+"76","31555","1",OCCITANIE,Occitanie,Occitanie,d'Occitanie,à l'Occitanie,en Occitanie
+"84","69123","1",AUVERGNE RHONE ALPES,Auvergne-Rhône-Alpes,Auvergne-Rhône-Alpes,d'Auvergne-Rhône-Alpes, à l'Auvergne-Rhône-Alpes,en Auvergne-Rhône-Alpes
+"93","13055","0",PROVENCE ALPES COTE D AZUR,Provence-Alpes-Côte d'Azur,Provence-Alpes-Côte d'Azur,de Provence-Alpes-Côte d'Azur, à la Provence-Alpes-Côte d'Azur,en Provence-Alpes-Côte d'Azur
+"94","2A004","0",CORSE,Corse,Corse,de Corse,à la Corse,en Corse
