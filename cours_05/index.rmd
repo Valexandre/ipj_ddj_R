@@ -1,0 +1,204 @@
+---
+title: "IPJ - Datajournalisme"
+subtitle: "Cours 05 : Géomatique de base"
+author: "Victor Alexandre"
+output:
+  xaringan::moon_reader:
+  lib_dir: libs
+nature:
+  highlightStyle: github
+highlightLines: true
+countIncrementalSlides: false
+
+---
+
+
+background-image: url("https://media.giphy.com/media/26CaL8cNprN6sz5WU/giphy-downsized-large.gif")
+class: center, top, inverse
+
+# 1. {sf}, c'est quoi ?
+
+
+```{r setup, include=FALSE, results='hide', message=FALSE, warning=FALSE}
+library(tidyverse)
+library(sf)
+knitr::opts_chunk$set(warning=FALSE,
+                      message = FALSE)
+
+```
+
+
+---
+
+## De nombreux packages de cartographie
+
+Vous trouverez des mentions aux packages {sp}, {rgdal}, {raster}, {terra}, {stars}, {tmap}, {cartography}, {cartelette}...
+
+Chacun a ses petites spécificités mais il existe un énorme boulot qui a été réalisé, autour des fonctions de base de géomatique {sf} pour *simple features*.
+
+**Le principe** : une ligne par observation et une colonne avec la géométrie, comme un tibble ou un dataframe.
+
+La cartographie nécessite de connaître quelques éléments de base :
+
+La Terre est ronde. Les axes X et Y, longitude et latitude, indiquent la zone à représenter. Il s'agit de choisir une bonne façon de projeter en 2 dimensions ce qui est en 3 dimensions. En projetant, on va changer de système de coordonnées.
+En France, il existe le Lambert I, II, III, IV, et 93 pour toute la France
+Google Maps et beaucoup d’autres utilisent la projection WGS 84.
+
+---
+
+## C'est quoi une *simple feature* ?
+
+Un tableur avec une colonne indiquant une liste de coordonnées: des latitudes et des longitudes. Il peut s'agir de points, de lignes, de polygones.
+
+Ils peuvent (et le plus souvent ils doivent) avoir une projection ou coordinate reference system (CRS) : WGS-84, Lambert 93, Lambert I, II, III, IV...
+
+---
+
+#2. Les opérations de base
+
+Pour ouvrir un élément géographique, on utilise st_read()
+
+## A. Simplifier les géométries
+
+```{r eval=FALSE}
+st_simplify(jeudedonnees,1000)
+```
+va simplifier le dataset pour limiter les changements de petits détails sur 1000 unités (m par exemple) 
+
+**Faisons le test avec un jeu de données de la ville de Paris**.
+
+---
+
+```{r}
+AiresPietonnes<-st_read("https://opendata.paris.fr/explore/dataset/aires-pietonnes/download/?format=geojson&timezone=Europe/Berlin&lang=fr")
+```
+
+---
+
+Voyons voir
+
+```{r}
+AiresPietonnes%>%ggplot()+
+  geom_sf()+theme_void()
+```
+
+---
+
+et si on le simplifie ?
+
+```{r}
+st_simplify(AiresPietonnes,dTolerance = 0.02)
+```
+
+---
+
+## B. Modifier les géométries
+
+Quel est le crs du jeu de données de la ville de Paris ?
+
+
+```{r eval=TRUE}
+st_crs(AiresPietonnes)
+#4326
+# transformons le pour avoir des mètres en unités
+```
+
+---
+
+Transformons le
+```{r}
+AP_enmetre<-st_transform(AiresPietonnes,crs=2154)
+st_crs(AP_enmetre)
+```
+
+---
+
+Simplifions
+
+Ca va simplifier le dataset pour limiter les changements de petits détails sur 6 unités (m par exemple) 
+
+```{r}
+AP_enmetre_S<-AP_enmetre%>%
+  st_simplify(dTolerance = 6)
+# coordonnées simplifiées
+unlist(AP_enmetre_S$geometry[1])
+# coordonnées initiales
+unlist(AP_enmetre$geometry[1])
+```
+
+---
+
+## C. Joindre les géométries
+
+Mettons qu'on veuille joindre les quartiers de Paris
+
+```{r}
+Quartiers<-st_read("https://opendata.paris.fr/explore/dataset/quartier_paris/download/?format=geojson&timezone=Europe/Berlin&lang=fr")
+
+#visualisons
+Quartiers%>%
+  ggplot()+
+  geom_sf()
+```
+
+---
+
+Il faut qu'ils partagent les mêmes crs
+```{r}
+st_crs(Quartiers) == st_crs(AP_enmetre_S)
+
+Quartiers_2154<-Quartiers%>% 
+  st_transform( crs = st_crs(AP_enmetre_S))
+
+st_crs(Quartiers_2154) == st_crs(AP_enmetre_S)
+```
+
+---
+
+Joignons les deux
+
+Il existe st_intersection (qui coupe les éléments communs) ou st_join (qui les duplique).
+
+```{r}
+AP_Q<-st_intersection(AP_enmetre_S,Quartiers_2154)
+
+head(AP_Q)
+AP_Q%>%
+  ggplot()+
+  geom_sf(aes(colour=c_qu),fill=NA,alpha=0.5)+
+  geom_sf(data=Quartiers_2154,fill=NA,colour="lightgray")+
+  theme_void()+theme(legend.position="none")
+```
+
+---
+
+# 3. Les calculs
+
+Avec sf, on peut calculer des longueurs de segments ou des aires, avec st_length et st_area.
+
+## A. Calculer une longueur
+
+```{r}
+Lineaires<-st_read("https://opendata.paris.fr/explore/dataset/voie/download/?format=geojson&timezone=Europe/Berlin&lang=fr")
+# jeu de données en 4326
+head(st_length(Lineaires))
+
+# Si on le transforme
+head(st_length(Lineaires%>%st_transform(crs=2154)))
+
+# si on compare aec la variable codée
+head(Lineaires$length)
+```
+
+## B. Calculer une aire
+
+```{r}
+#quelle est la plus grande aire piétonne ?
+AP_enmetre<-AP_enmetre%>%
+  mutate(aire=st_area(geometry),
+         airenum=as.numeric(aire))%>%
+  arrange(desc(airenum))
+
+head(AP_enmetre)
+
+```

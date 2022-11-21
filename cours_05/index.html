@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>IPJ - Datajournalisme</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Victor Alexandre" />
+    <script src="index_files/header-attrs-2.7/header-attrs.js"></script>
+    <link href="index_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="index_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# IPJ - Datajournalisme
+## Cours 05 : Géomatique de base
+### Victor Alexandre
+
+---
+
+
+
+background-image: url("https://media.giphy.com/media/26CaL8cNprN6sz5WU/giphy-downsized-large.gif")
+class: center, top, inverse
+
+# 1. {sf}, c'est quoi ?
+
+
+
+
+
+---
+
+## De nombreux packages de cartographie
+
+Vous trouverez des mentions aux packages {sp}, {rgdal}, {raster}, {terra}, {stars}, {tmap}, {cartography}, {cartelette}...
+
+Chacun a ses petites spécificités mais il existe un énorme boulot qui a été réalisé, autour des fonctions de base de géomatique {sf} pour *simple features*.
+
+**Le principe** : une ligne par observation et une colonne avec la géométrie, comme un tibble ou un dataframe.
+
+La cartographie nécessite de connaître quelques éléments de base :
+
+La Terre est ronde. Les axes X et Y, longitude et latitude, indiquent la zone à représenter. Il s'agit de choisir une bonne façon de projeter en 2 dimensions ce qui est en 3 dimensions. En projetant, on va changer de système de coordonnées.
+En France, il existe le Lambert I, II, III, IV, et 93 pour toute la France
+Google Maps et beaucoup d’autres utilisent la projection WGS 84.
+
+---
+
+## C'est quoi une *simple feature* ?
+
+Un tableur avec une colonne indiquant une liste de coordonnées: des latitudes et des longitudes. Il peut s'agir de points, de lignes, de polygones.
+
+Ils peuvent (et le plus souvent ils doivent) avoir une projection ou coordinate reference system (CRS) : WGS-84, Lambert 93, Lambert I, II, III, IV...
+
+---
+
+#2. Les opérations de base
+
+Pour ouvrir un élément géographique, on utilise st_read()
+
+## A. Simplifier les géométries
+
+
+```r
+st_simplify(jeudedonnees,1000)
+```
+va simplifier le dataset pour limiter les changements de petits détails sur 1000 unités (m par exemple) 
+
+**Faisons le test avec un jeu de données de la ville de Paris**.
+
+---
+
+
+```r
+AiresPietonnes&lt;-st_read("https://opendata.paris.fr/explore/dataset/aires-pietonnes/download/?format=geojson&amp;timezone=Europe/Berlin&amp;lang=fr")
+```
+
+```
+## Reading layer `OGRGeoJSON' from data source `https://opendata.paris.fr/explore/dataset/aires-pietonnes/download/?format=geojson&amp;timezone=Europe/Berlin&amp;lang=fr' using driver `GeoJSON'
+## Simple feature collection with 546 features and 5 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 2.236705 ymin: 48.81724 xmax: 2.419312 ymax: 48.89983
+## Geodetic CRS:  WGS 84
+```
+---
+
+Voyons voir
+
+
+```r
+AiresPietonnes%&gt;%ggplot()+
+  geom_sf()+theme_void()
+```
+
+![](index_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+et si on le simplifie ?
+
+
+```r
+st_simplify(AiresPietonnes,dTolerance = 0.02)
+```
+
+```
+## Simple feature collection with 546 features and 5 fields (with 546 geometries empty)
+## Geometry type: POLYGON
+## Dimension:     XY
+## Bounding box:  xmin: NA ymin: NA xmax: NA ymax: NA
+## Geodetic CRS:  WGS 84
+## First 10 features:
+##                           nom arrondissement rue_aux_ecoles           paru_bovp
+## 1                           0             19            Non                &lt;NA&gt;
+## 2                           0             11            Non                &lt;NA&gt;
+## 3                           0              7            Non                &lt;NA&gt;
+## 4  Place Jean-Michel Basquiat             13            Non                &lt;NA&gt;
+## 5                           0             15            Non                &lt;NA&gt;
+## 6        Rue de la Michodière              2            Non                &lt;NA&gt;
+## 7                           0             19            Non                &lt;NA&gt;
+## 8                           0             18            Non                &lt;NA&gt;
+## 9                           0             20            Non 2008-02-08 02:00:00
+## 10                          0             17            Non                &lt;NA&gt;
+##           geo_point_2d      geometry
+## 1  48.884104, 2.387013 POLYGON EMPTY
+## 2  48.862436, 2.374922 POLYGON EMPTY
+## 3    48.85877, 2.31952 POLYGON EMPTY
+## 4  48.831255, 2.375079 POLYGON EMPTY
+## 5  48.852582, 2.283325 POLYGON EMPTY
+## 6  48.870074, 2.334808 POLYGON EMPTY
+## 7  48.887367, 2.392411 POLYGON EMPTY
+## 8  48.893132, 2.342358 POLYGON EMPTY
+## 9  48.868144, 2.393552 POLYGON EMPTY
+## 10 48.888594, 2.307591 POLYGON EMPTY
+```
+
+---
+
+## B. Modifier les géométries
+
+Quel est le crs du jeu de données de la ville de Paris ?
+
+
+
+```r
+st_crs(AiresPietonnes)
+```
+
+```
+## Coordinate Reference System:
+##   User input: WGS 84 
+##   wkt:
+## GEOGCRS["WGS 84",
+##     DATUM["World Geodetic System 1984",
+##         ELLIPSOID["WGS 84",6378137,298.257223563,
+##             LENGTHUNIT["metre",1]]],
+##     PRIMEM["Greenwich",0,
+##         ANGLEUNIT["degree",0.0174532925199433]],
+##     CS[ellipsoidal,2],
+##         AXIS["geodetic latitude (Lat)",north,
+##             ORDER[1],
+##             ANGLEUNIT["degree",0.0174532925199433]],
+##         AXIS["geodetic longitude (Lon)",east,
+##             ORDER[2],
+##             ANGLEUNIT["degree",0.0174532925199433]],
+##     ID["EPSG",4326]]
+```
+
+```r
+#4326
+# transformons le pour avoir des mètres en unités
+```
+
+---
+
+Transformons le
+
+```r
+AP_enmetre&lt;-st_transform(AiresPietonnes,crs=2154)
+st_crs(AP_enmetre)
+```
+
+```
+## Coordinate Reference System:
+##   User input: EPSG:2154 
+##   wkt:
+## PROJCRS["RGF93 / Lambert-93",
+##     BASEGEOGCRS["RGF93",
+##         DATUM["Reseau Geodesique Francais 1993",
+##             ELLIPSOID["GRS 1980",6378137,298.257222101,
+##                 LENGTHUNIT["metre",1]]],
+##         PRIMEM["Greenwich",0,
+##             ANGLEUNIT["degree",0.0174532925199433]],
+##         ID["EPSG",4171]],
+##     CONVERSION["Lambert-93",
+##         METHOD["Lambert Conic Conformal (2SP)",
+##             ID["EPSG",9802]],
+##         PARAMETER["Latitude of false origin",46.5,
+##             ANGLEUNIT["degree",0.0174532925199433],
+##             ID["EPSG",8821]],
+##         PARAMETER["Longitude of false origin",3,
+##             ANGLEUNIT["degree",0.0174532925199433],
+##             ID["EPSG",8822]],
+##         PARAMETER["Latitude of 1st standard parallel",49,
+##             ANGLEUNIT["degree",0.0174532925199433],
+##             ID["EPSG",8823]],
+##         PARAMETER["Latitude of 2nd standard parallel",44,
+##             ANGLEUNIT["degree",0.0174532925199433],
+##             ID["EPSG",8824]],
+##         PARAMETER["Easting at false origin",700000,
+##             LENGTHUNIT["metre",1],
+##             ID["EPSG",8826]],
+##         PARAMETER["Northing at false origin",6600000,
+##             LENGTHUNIT["metre",1],
+##             ID["EPSG",8827]]],
+##     CS[Cartesian,2],
+##         AXIS["easting (X)",east,
+##             ORDER[1],
+##             LENGTHUNIT["metre",1]],
+##         AXIS["northing (Y)",north,
+##             ORDER[2],
+##             LENGTHUNIT["metre",1]],
+##     USAGE[
+##         SCOPE["Engineering survey, topographic mapping."],
+##         AREA["France - onshore and offshore, mainland and Corsica."],
+##         BBOX[41.15,-9.86,51.56,10.38]],
+##     ID["EPSG",2154]]
+```
+
+---
+
+Simplifions
+
+Ca va simplifier le dataset pour limiter les changements de petits détails sur 6 unités (m par exemple) 
+
+
+```r
+AP_enmetre_S&lt;-AP_enmetre%&gt;%
+  st_simplify(dTolerance = 6)
+# coordonnées simplifiées
+unlist(AP_enmetre_S$geometry[1])
+```
+
+```
+##  [1]  655081.0  655016.0  655011.1  655076.1  655081.0 6865068.9 6865059.6
+##  [8] 6865077.0 6865086.4 6865068.9
+```
+
+```r
+# coordonnées initiales
+unlist(AP_enmetre$geometry[1])
+```
+
+```
+##   [1]  655081.0  655081.0  655080.9  655080.9  655080.9  655080.8  655080.8
+##   [8]  655080.7  655080.7  655080.7  655080.6  655080.6  655080.5  655080.5
+##  [15]  655080.5  655080.4  655080.4  655080.4  655080.3  655080.3  655080.3
+##  [22]  655062.9  655061.0  655058.6  655056.4  655051.0  655050.4  655045.1
+##  [29]  655044.7  655039.2  655038.5  655033.2  655032.4  655027.1  655026.7
+##  [36]  655022.2  655021.8  655020.8  655016.0  655016.1  655017.0  655017.1
+##  [43]  655017.0  655016.8  655016.4  655016.0  655015.4  655014.8  655014.0
+##  [50]  655013.1  655012.2  655011.1  655076.1  655081.0 6865068.9 6865068.9
+##  [57] 6865068.9 6865068.9 6865069.0 6865069.0 6865069.0 6865069.0 6865069.0
+##  [64] 6865069.0 6865069.0 6865069.0 6865069.0 6865069.0 6865068.9 6865068.9
+##  [71] 6865068.9 6865068.9 6865068.8 6865068.8 6865068.8 6865066.3 6865066.0
+##  [78] 6865065.6 6865065.3 6865064.5 6865064.4 6865063.7 6865063.6 6865062.8
+##  [85] 6865062.7 6865062.0 6865061.8 6865061.1 6865061.0 6865060.4 6865060.3
+##  [92] 6865060.2 6865059.6 6865059.9 6865063.4 6865064.8 6865066.2 6865067.6
+##  [99] 6865068.9 6865070.3 6865071.5 6865072.8 6865074.0 6865075.1 6865076.1
+## [106] 6865077.0 6865086.4 6865068.9
+```
+
+---
+
+## C. Joindre les géométries
+
+Mettons qu'on veuille joindre les quartiers de Paris
+
+
+```r
+Quartiers&lt;-st_read("https://opendata.paris.fr/explore/dataset/quartier_paris/download/?format=geojson&amp;timezone=Europe/Berlin&amp;lang=fr")
+```
+
+```
+## Reading layer `OGRGeoJSON' from data source `https://opendata.paris.fr/explore/dataset/quartier_paris/download/?format=geojson&amp;timezone=Europe/Berlin&amp;lang=fr' using driver `GeoJSON'
+## Simple feature collection with 80 features and 9 fields
+## Geometry type: POLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 2.224078 ymin: 48.81558 xmax: 2.469761 ymax: 48.90216
+## Geodetic CRS:  WGS 84
+```
+
+```r
+#visualisons
+Quartiers%&gt;%
+  ggplot()+
+  geom_sf()
+```
+
+![](index_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+---
+
+Il faut qu'ils partagent les mêmes crs
+
+```r
+st_crs(Quartiers) == st_crs(AP_enmetre_S)
+```
+
+```
+## [1] FALSE
+```
+
+```r
+st_crs(Quartiers) == st_crs(AP_enmetre_S)
+```
+
+```
+## [1] FALSE
+```
+
+```r
+Quartiers_2154&lt;-Quartiers%&gt;% 
+  st_transform( crs = st_crs(AP_enmetre_S))
+
+st_crs(Quartiers_2154) == st_crs(AP_enmetre_S)
+```
+
+```
+## [1] TRUE
+```
+
+---
+
+Joignons les deux
+
+Il existe st_intersection (qui coupe les éléments communs) ou st_join (qui les duplique).
+
+
+```r
+AP_Q&lt;-st_intersection(AP_enmetre_S,Quartiers_2154)
+
+head(AP_Q)
+```
+
+```
+## Simple feature collection with 6 features and 14 fields
+## Geometry type: POLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 650928.2 ymin: 6860123 xmax: 653280.3 ymax: 6864009
+## Projected CRS: RGF93 / Lambert-93
+##                nom arrondissement rue_aux_ecoles           paru_bovp
+## 367              0              3            Non 2006-04-04 04:00:00
+## 431              0              3            Non 2016-07-12 04:00:00
+## 527              0              3            Non 2016-08-02 04:00:00
+## 387              0              5            Non                &lt;NA&gt;
+## 424              0              5            Non 2018-01-02 02:00:00
+## 241 Rue de Mogador              9            Non 2022-02-25 02:00:00
+##            geo_point_2d c_quinsee  surface c_qu c_ar               l_qu
+## 367 48.861385, 2.363144   7510303 367728.4   11    3           Archives
+## 431 48.859530, 2.362525   7510303 367728.4   11    3           Archives
+## 527 48.860138, 2.362268   7510303 367728.4   11    3           Archives
+## 387   48.84025, 2.34931   7510502 798389.4   18    5 Jardin-des-Plantes
+## 424 48.840150, 2.350203   7510502 798389.4   18    5 Jardin-des-Plantes
+## 241 48.873747, 2.331245   7510902 543441.2   34    9   Chaussée-d'Antin
+##     perimetre   n_sq_qu   n_sq_ar            geom_x_y
+## 367   2534.10 750000011 750000003 48.859192, 2.363205
+## 431   2534.10 750000011 750000003 48.859192, 2.363205
+## 527   2534.10 750000011 750000003 48.859192, 2.363205
+## 387   4052.73 750000018 750000005 48.841940, 2.356894
+## 424   4052.73 750000018 750000005 48.841940, 2.356894
+## 241   3133.58 750000034 750000009 48.873547, 2.332269
+##                           geometry
+## 367 POLYGON ((653275.5 6862572,...
+## 431 POLYGON ((653198 6862325, 6...
+## 527 POLYGON ((653252.1 6862388,...
+## 387 POLYGON ((652279.7 6860132,...
+## 424 POLYGON ((652325.9 6860218,...
+## 241 POLYGON ((650946.9 6864009,...
+```
+
+```r
+AP_Q%&gt;%
+  ggplot()+
+  geom_sf(aes(colour=c_qu),fill=NA,alpha=0.5)+
+  geom_sf(data=Quartiers_2154,fill=NA,colour="lightgray")+
+  theme_void()+theme(legend.position="none")
+```
+
+![](index_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
