@@ -1,0 +1,104 @@
+---
+title: "IPJ - Datajournalisme"
+subtitle: "Second semestre"
+author: "Victor Alexandre"
+output:
+  xaringan::moon_reader:
+  lib_dir: libs
+nature:
+  highlightStyle: github
+highlightLines: true
+countIncrementalSlides: false
+
+---
+
+
+background-image: url("https://media.giphy.com/media/iHSDewatneZpu/giphy.gif")
+class: center, top, inverse
+
+# (Presque) pas de travail supplémentaire
+
+```{r setup, include=FALSE, results='hide', message=FALSE, warning=FALSE}
+library(tidyverse)
+library(sf)
+knitr::opts_chunk$set(warning=FALSE,
+                      message = FALSE)
+
+```
+
+
+---
+
+## Deux notes sur le second semestre
+
+ - 70% sur un exposé
+ - 30% sur un QCM
+ 
+---
+
+### L'exposé
+
+Il s'agit de présenter en 15 minutes, 20 maximum, tout ou une partie du devoir que vous allez rendre pour ce premier semestre. 
+
+Vous devrez expliquer clairement en **préambule** (2 à 3 minutes)
+- quel est votre sujet d'article
+- la source de la base de données, comment vous avez trouvé et choisi cette base, et dans quel objectif (avec quelles questions en tête).
+
+Puis, vous présenterez votre **premier contact** avec cette base.
+- les difficultés éventuelles de traitement de la base de données
+- sa qualité / ses avantages
+- ses limites / ses défauts
+
+---
+
+Puis, vous nous présenterez votre **code** (8 à 10 minutes)
+Vous devrez  nous présenter votre code R et la façon dont vous avez posé ces questions. 
+Ce code devra être fonctionnel sur le ordinateur de présentation, avec une prise HDMI.
+- quelles variables vous avez choisi d'utiliser
+- avez-vous fait des recodages
+- si vous avez réalisé des graphiques, comment vous les avez choisi
+
+
+Enfin vous nous expliquerez si les réponses obtenues vous ont paru intéressantes ou surprenantes, si elles ont soulevé de nouvelles questions, comment ces réponses vous ont permis d'illustrer/amender/nuancer votre article. (2 à 3 minutes)
+
+---
+
+Chaque intervention sera suivie d'une reprise de ma part.
+Si vous ne pouvez pas présenter sur un ordinateur, vous devrez m'envoyer la veille un lien vers la base de données ainsi que votre code.
+
+---
+
+```{r}
+heures_restantes<-18
+minutes_presentation<-20+15
+etudiants<-24
+branchement<-sample(
+  #entre 1 et 5 minutes 
+  1:5,
+  # ce qui se reproduira autant de fois qu'il y a d'étudiants
+  etudiants,replace = TRUE)
+
+((heures_restantes-1)
+   # pour le QCM 
+*60 #minutes
+)  
+( etudiants * (minutes_presentation+mean(branchement)))
+
+
+```
+
+Les présentations de plus de 20 minutes seront interrompues.
+
+La notation prendra en compte la clareté de la présentation orale, la capacité à restituer le raisonnement qui a conduit ce travail et la mise en avant des difficultés et comment elles ont été surmontées, éventuellement.
+
+Ce sera intéressant de parler lors de la reprise des éléments qui ont été/qui demeurent problématiques dans le traitement de cette base.
+
+L'organisation est telle qu'on aura pas beaucoup de marge. Echangez si vous voulez par la suite entre vous. Il ne restera pas beaucoup de temps lors du dernier cours.
+
+Il va donc falloir que chacun s'inscrive.
+
+---
+
+### Le QCM
+
+Il s'agira d'une vingtaine de questions relatives au cours et aux reprises qui auront été faites, auxquelles vous répondrez lors de la dernière séance.
